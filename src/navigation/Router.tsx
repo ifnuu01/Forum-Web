@@ -9,7 +9,7 @@ export default function AppRouter() {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<HomePage />} />
-                <Route path='/detail-thread' element={<DetailThreadPage />} />
+                <Route path='/detail-thread/:id' element={<DetailThreadPage />} />
                 <Route path='/papan-peringkat' element={<LeaderboardPage />} />
                 <Route path='/profile' element={<ProfilePage />} />
             </Routes>
