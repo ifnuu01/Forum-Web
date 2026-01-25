@@ -1,13 +1,34 @@
+import { useDispatch, useSelector } from "react-redux"
+import { fetchOwnProfile, selectUser } from "../../../features/user/userSlice";
+import { useEffect } from "react";
+import type { AppDispatch } from "../../../store/store";
+
 export default function ProfileHeader() {
+    const dispatch = useDispatch<AppDispatch>();
+    const { ownUser, loading, error } = useSelector(selectUser);
+
+    useEffect(() => {
+        dispatch(fetchOwnProfile());
+    }, [dispatch]);
+
+    if (loading) {
+        return <div className="w-full text-center"
+        >Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return (
         <section className="flex items-center justify-between px-8 py-4">
             <div>
-                <h1 className="text-xl font-bold">Ifnu Umar</h1>
-                <p className="text-white/40">ifnuu01@gmail.com</p>
+                <h1 className="text-xl font-bold">{ownUser?.name}</h1>
+                <p className="text-white/40">{ownUser?.email}</p>
             </div>
             <img
                 className="w-20 h-20 rounded-full object-cover"
-                src="https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+                src={ownUser?.avatar} alt="avatar" />
         </section>
     )
 }
