@@ -4,7 +4,7 @@ import type { LeaderboardResponse } from '../../services/leaderboard/type';
 import type { RootState } from '../../store/store';
 
 interface LeaderboardState {
-  leaderboard: LeaderboardResponse['data']['leaderboard'];
+  leaderboard: LeaderboardResponse['data']['leaderboards'];
   loading: boolean;
   error: string | null;
 }
@@ -45,7 +45,7 @@ const leaderboardSlice = createSlice({
       })
       .addCase(fetchLeaderboard.fulfilled, (state, action) => {
         state.loading = false;
-        state.leaderboard = action.payload.data.leaderboard;
+        state.leaderboard = action.payload.data.leaderboards;
       })
       .addCase(fetchLeaderboard.rejected, (state, action) => {
         state.loading = false;

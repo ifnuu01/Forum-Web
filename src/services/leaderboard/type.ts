@@ -2,7 +2,7 @@ export interface LeaderboardResponse {
     status: "success" | "fail";
     message: string;
     data: {
-        leaderboard: Array<{
+        leaderboards: Array<{
             user: {
                 id: string;
                 name: string;
