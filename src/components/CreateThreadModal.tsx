@@ -56,9 +56,14 @@ export default function CreateThreadModal() {
                                     required
                                 />
                                 <textarea
+                                    style={{
+                                        scrollbarWidth: 'none',
+                                        msOverflowStyle: 'none'
+                                    }}
                                     placeholder="Apa yang baru?"
                                     value={form.body}
                                     onChange={(e) => dispatch(updateForm({ body: e.target.value }))}
+                                    rows={8}
                                     className="w-full bg-transparent text-md placeholder:text-white/60 outline-none resize-none min-h-30"
                                     required
                                 />
@@ -98,7 +103,7 @@ export default function CreateThreadModal() {
                             ) : (
                                 <>
                                     <span>Posting</span>
-                                    <SendHorizontal size={18} />
+                                    <SendHorizontal size={18} className="rotate-270" />
                                 </>
                             )}
                         </button>
