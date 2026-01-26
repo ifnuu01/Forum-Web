@@ -53,6 +53,7 @@ export default function DetailThreadPage() {
                             detailThread.comments.map((comment) => (
                                 <CommentCard
                                     key={comment.id}
+                                    threadId={detailThread.id}
                                     id={comment.id}
                                     content={comment.content}
                                     createdAt={comment.createdAt}

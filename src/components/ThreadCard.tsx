@@ -1,7 +1,14 @@
 import { ChevronRight, MessageSquare, SendHorizonal, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { timeAgo } from "../utils/fomat";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { AppDispatch } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOwnProfile, selectUser } from "../features/user/userSlice";
+import { createComment, selectComments } from "../features/comments/commentsSlice";
+import { toast } from "react-hot-toast";
+import { addCommentToDetailThread } from "../features/threads/threadsSlice";
+import { downVoteThread, upVoteThread } from "../features/votes/votesSlice";
 
 export default function ThreadCard({
     isDetail = false,
@@ -32,6 +39,15 @@ export default function ThreadCard({
         avatar: string;
     },
 }) {
+    const dispatch = useDispatch<AppDispatch>();
+    const { ownUser, loading } = useSelector(selectUser);
+    const { loading: commentLoading, error: commentError } = useSelector(selectComments);
+    const [content, setContent] = useState("");
+
+    useEffect(() => {
+        dispatch(fetchOwnProfile());
+    }, [dispatch])
+
     const navigate = useNavigate();
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -39,6 +55,32 @@ export default function ThreadCard({
         if (textAreaRef.current) {
             textAreaRef.current.style.height = "auto";
             textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+        }
+    }
+
+    const handleUpVoteThread = async () => {
+        await dispatch(upVoteThread(id)).unwrap();
+    }
+
+    const handleDownVoteThread = async () => {
+        await dispatch(downVoteThread(id)).unwrap();
+    }
+
+    const isUpVoted = upVotesBy?.includes(ownUser?.id || '') || false;
+    const isDownVoted = downVotesBy?.includes(ownUser?.id || '') || false;
+
+    const handleSubmitComment = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await dispatch(createComment({ threadId: id, payload: { content } })).unwrap();
+            const newComment = {
+                ...response.data.comment,
+                owner: ownUser!,
+            }
+            dispatch(addCommentToDetailThread({ threadId: id, comment: newComment }));
+            setContent("");
+        } catch {
+            toast.error('Gagal mengirim komentar');
         }
     }
 
@@ -75,22 +117,32 @@ export default function ThreadCard({
 
             {/* footer */}
             <div className="flex items-center gap-4 mt-2 mb-1">
-                <button className="flex cursor-pointer hover:scale-110 transition-all duration-200 hover:text-white items-center gap-1 text-white/40"><ThumbsUp /><span>{upVotesBy ? upVotesBy.length : 0}</span></button>
-                <button className="flex cursor-pointer hover:scale-110 transition-all duration-200 hover:text-white items-center gap-1 text-white/40"><ThumbsDown /><span>{downVotesBy ? downVotesBy.length : 0}</span></button>
+                <button
+                    onClick={handleUpVoteThread}
+                    className={`${isUpVoted ? 'text-white' : 'text-white/40'} flex cursor-pointer hover:scale-110 transition-all duration-200 hover:text-white items-center gap-1`}><ThumbsUp /><span>{upVotesBy ? upVotesBy.length : 0}</span></button>
+                <button
+                    onClick={handleDownVoteThread}
+                    className={`${isDownVoted ? 'text-white' : 'text-white/40'} flex cursor-pointer hover:scale-110 transition-all duration-200 hover:text-white items-center gap-1`}><ThumbsDown /><span>{downVotesBy ? downVotesBy.length : 0}</span></button>
                 <button
                     {...(isDetail ? {} : { onClick: () => navigate(`/detail-thread/${id}`) })}
                     className="flex cursor-pointer hover:scale-110 transition-all duration-200 hover:text-white items-center gap-1 text-white/40"><MessageSquare /><span>{totalComments ? totalComments : 0}</span></button>
             </div>
 
             {isDetail && (
-                <form action="" className="flex justify-between items-end gap-4 mt-4">
+                <form onSubmit={handleSubmitComment} className="flex justify-between items-end gap-4 mt-4">
                     {/* profile */}
                     <div className="w-full">
                         <section className="flex items-center gap-2 mt-4 ">
-                            <img
-                                className="w-10 h-10 rounded-full object-cover"
-                                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                            <h2>Ifnu Umar</h2>
+                            {loading ? (
+                                <div className="w-10 h-10 bg-secondary/30 rounded-full animate-pulse"></div>
+                            ) : (
+                                <>
+                                    <img
+                                        className="w-10 h-10 rounded-full object-cover"
+                                        src={ownUser?.avatar} alt="" />
+                                    <h2>{ownUser?.name}</h2>
+                                </>
+                            )}
                             <ChevronRight />
                             <span className="text-xs text-white/40">Komentar</span>
                         </section>
@@ -100,10 +152,16 @@ export default function ThreadCard({
                             autoFocus
                             className="w-full mt-4 p-3 rounded-xl bg-primary focus:outline-none "
                             rows={1}
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
                             placeholder="Tulis komentar kamu disini..."
                         ></textarea>
+                        {commentError && (<div className="text-red-500 text-sm mt-1">{commentError}</div>)}
                     </div>
-                    <button className="bg-white text-primary rounded-full p-2 cursor-pointer hover:scale-110 transition-all duration-200">
+                    <button
+                        type="submit"
+                        disabled={commentLoading || content.trim() === ""}
+                        className="bg-white text-primary rounded-full p-2 cursor-pointer hover:scale-110 transition-all duration-200">
                         <SendHorizonal className="rotate-270" />
                     </button>
                 </form>
