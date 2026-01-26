@@ -1,3 +1,10 @@
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    avatar: string;
+}
+
 export interface RegisterRequest {
     name: string;
     email  : string;
@@ -8,12 +15,7 @@ export interface RegisterResponse {
     status: "success" | "fail";
     message: string;
     data?: {
-        user?: {
-            id: string;
-            name: string;
-            email: string;
-            avatar: string;
-        }
+        user?: User;
     }
 }
 
@@ -28,4 +30,10 @@ export interface LoginResponse {
     data?: {
         token?: string;
     }
+}
+
+export interface AuthState {
+  token: string | null;
+  loading: boolean;
+  error: string | null;
 }

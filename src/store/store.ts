@@ -7,6 +7,7 @@ import votesReducer from '../features/votes/votesSlice';
 import userReducer from '../features/user/userSlice';
 import replyHistoryReducer from '../features/replyHistory/replyHistorySlice';
 import createThreadReducer from '../features/createThread/createThreadSlice';
+import ModalAuthReducer from '../features/auth/modalAuthSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     user: userReducer,
     replyHistory: replyHistoryReducer,
     createThread: createThreadReducer,
+    modalAuth: ModalAuthReducer,
   },
 });
 
