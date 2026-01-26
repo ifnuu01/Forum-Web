@@ -2,7 +2,7 @@ export default function LeaderboardSkeleton() {
     return (
         <table className="w-full mt-4 border-separate border-spacing-y-2 animate-pulse">
             <thead>
-                <th className="w-20">No</th>
+                <th className="w-10 md:w-20">No</th>
                 <th className="text-left">Nama Pengguna</th>
                 <th>Skor</th>
             </thead>
