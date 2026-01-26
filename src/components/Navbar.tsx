@@ -1,6 +1,5 @@
 import { ArrowLeft, UserRound } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
-
 export default function Navbar() {
     const navigate = useNavigate();
     const location = useLocation();

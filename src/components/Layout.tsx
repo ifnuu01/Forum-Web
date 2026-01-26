@@ -1,13 +1,31 @@
 import { Plus } from "lucide-react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../store/store";
 import { openModal } from "../features/createThread/createThreadSlice";
 import CreateThreadModal from "./CreateThreadModal";
+import AuthModal from "./AuthModal";
+import { loadAuthFromStorage, selectAuth } from "../features/auth/authSlice";
+import { useEffect } from "react";
+import { closeLoginModal, openLoginModal } from "../features/auth/modalAuthSlice";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const dispatch = useDispatch<AppDispatch>();
+    const { token } = useSelector(selectAuth);
+
+    useEffect(() => {
+        dispatch(loadAuthFromStorage());
+    }, [dispatch]);
+
+    useEffect(() => {
+        const isLoggedIn = token;
+        if (!isLoggedIn) {
+            dispatch(openLoginModal());
+        } else {
+            dispatch(closeLoginModal());
+        }
+    }, [token, dispatch]);
 
     return (
         <div className="min-h-screen bg-primary relative flex md:bg-white">
@@ -33,8 +51,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             >
                 <Plus size={32} strokeWidth={3} />
             </button>
-
             <CreateThreadModal />
+            <AuthModal />
         </div>
     );
 }
