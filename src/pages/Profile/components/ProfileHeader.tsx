@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchOwnProfile, selectUser } from "../../../features/user/userSlice";
 import { useEffect } from "react";
 import type { AppDispatch } from "../../../store/store";
+import ProfileHeaderSkeleton from "./ProfileHeaderSkeleton";
 
 export default function ProfileHeader() {
     const dispatch = useDispatch<AppDispatch>();
@@ -12,8 +13,7 @@ export default function ProfileHeader() {
     }, [dispatch]);
 
     if (loading) {
-        return <div className="w-full text-center"
-        >Loading...</div>;
+        return <ProfileHeaderSkeleton />
     }
 
     if (error) {
