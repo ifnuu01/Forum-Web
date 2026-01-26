@@ -1,26 +1,32 @@
 import { useDispatch, useSelector } from 'react-redux';
-import type { RootState, AppDispatch } from '../store/store';
-import { closeModal, updateForm } from '../features/createThread/createThreadSlice';
+import type { AppDispatch } from '../store/store';
+import { closeModal, selectCreateThread, updateForm } from '../features/createThread/createThreadSlice';
 import { createThread } from '../features/threads/threadsSlice';
 import { Hash, SendHorizontal, MessageCircleDashed } from 'lucide-react';
+import { fetchOwnProfile, selectUser } from '../features/user/userSlice';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 export default function CreateThreadModal() {
     const dispatch = useDispatch<AppDispatch>();
-    const { isOpen, form, isSubmitting, error } = useSelector((state: RootState) => state.createThread);
-    const { authUser } = useSelector((state: RootState) => state.authUser || { authUser: null });
+    const { isOpen, form, isSubmitting, error } = useSelector(selectCreateThread);
+    const { ownUser, loading } = useSelector(selectUser);
+
+    useEffect(() => {
+        dispatch(fetchOwnProfile());
+    }, [dispatch])
 
     if (!isOpen) return null;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(createThread(form));
+        toast.success('Thread berhasil dibuat!');
     };
 
     return (
         <div className="fixed inset-0 bg-[#121212]/90 backdrop-blur-md flex items-center justify-center z-50 p-4">
             <div className="bg-primary rounded-4xl w-full max-w-xl text-white border border-secondary shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-
-                {/* Header ala Threads */}
                 <div className="flex justify-between items-center px-6 py-4 border-b border-secondary/50">
                     <button
                         onClick={() => dispatch(closeModal())}
@@ -36,11 +42,15 @@ export default function CreateThreadModal() {
                     <div className="flex gap-4">
                         {/* Avatar User */}
                         <div className="flex flex-col items-center gap-2">
-                            <img
-                                src={authUser?.avatar || 'https://ui-avatars.com/api/?name=User'}
-                                alt="me"
-                                className="w-12 h-12 rounded-full border border-secondary"
-                            />
+                            {loading ? (
+                                <div className="w-12 h-12 bg-secondary/30 rounded-full animate-pulse"></div>
+                            ) : (
+                                <img
+                                    src={ownUser?.avatar}
+                                    alt="me"
+                                    className="w-12 h-12 rounded-full border border-secondary"
+                                />
+                            )}
                             <div className="w-0.5 flex-1 bg-secondary rounded-full my-1"></div>
                         </div>
 
