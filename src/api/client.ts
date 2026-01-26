@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
 });
 
 
-axiosInstance.interceptors.response.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
     try {
         const raw = localStorage.getItem("auth");
         if (raw) {
