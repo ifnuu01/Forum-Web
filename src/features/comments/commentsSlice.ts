@@ -43,7 +43,6 @@ const commentsSlice = createSlice({
       })
       .addCase(createComment.fulfilled, (state) => {
         state.loading = false;
-        // Comment baru akan diupdate di threadsSlice (detailThread)
       })
       .addCase(createComment.rejected, (state, action) => {
         state.loading = false;

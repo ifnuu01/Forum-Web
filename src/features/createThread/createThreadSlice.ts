@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ThreadRequest } from "../../services/threads/type";
 import { createThread } from "../threads/threadsSlice";
+import type { RootState } from '../../store/store';
 
 interface CreateThreadState {
     isOpen: boolean;
@@ -63,3 +64,6 @@ const createThreadSlice = createSlice({
 
 export const { openModal, closeModal, updateForm, setSubmitting, setError } = createThreadSlice.actions;
 export default createThreadSlice.reducer;
+
+export const selectCreateThread = (state: RootState) => state.createThread;
+

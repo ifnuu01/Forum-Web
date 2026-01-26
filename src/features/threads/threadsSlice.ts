@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import * as threadService from '../../services/threads/request';
 import type {
   ThreadRequest,
@@ -83,6 +83,11 @@ const threadSlice = createSlice({
     clearDetailThread(state) {
       state.detailThread = null;
     },
+    addCommentToDetailThread(state, action: PayloadAction<{ threadId: string; comment: DetailThreadResponse['data']['detailThread']['comments'][0] }>) {
+      if (state.detailThread && state.detailThread.id === action.payload.threadId) {
+        state.detailThread.comments.unshift(action.payload.comment);
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -127,11 +132,11 @@ const threadSlice = createSlice({
       .addCase(createThread.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Failed to create thread';
-      });
+      })
   },
 });
 
-export const { clearDetailThread } = threadSlice.actions;
+export const { clearDetailThread, addCommentToDetailThread } = threadSlice.actions;
 export default threadSlice.reducer;
 
 // Selector

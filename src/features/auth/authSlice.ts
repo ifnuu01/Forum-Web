@@ -6,22 +6,10 @@ import type {
   RegisterResponse,
   LoginRequest,
   LoginResponse,
+  AuthState,
 } from '../../services/auth/type';
 
-interface AuthState {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    avatar: string;
-  } | null;
-  token: string | null;
-  loading: boolean;
-  error: string | null;
-}
-
 const initialState: AuthState = {
-  user: null,
   token: null,
   loading: false,
   error: null,
@@ -35,12 +23,6 @@ export const register = createAsyncThunk<
 >('auth/register', async (payload, { rejectWithValue }) => {
   try {
     const response = await authService.register(payload);
-    if (response.status === 'success' && response.data?.user) {
-      localStorage.setItem(
-        'auth',
-        JSON.stringify({ user: response.data.user, token: null })
-      );
-    }
     return response;
   } catch (err: unknown) {
     const  message = err instanceof Error ? err.message : 'Register failed';
@@ -57,12 +39,9 @@ export const login = createAsyncThunk<
   try {
     const response = await authService.login(payload);
     if (response.status === 'success' && response.data?.token) {
-      // Ambil user dari localStorage jika ada
-      const raw = localStorage.getItem('auth');
-      const user = raw ? JSON.parse(raw).user : null;
       localStorage.setItem(
         'auth',
-        JSON.stringify({ user, token: response.data.token })
+        JSON.stringify({token: response.data.token })
       );
     }
     return response;
@@ -77,7 +56,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout(state) {
-      state.user = null;
       state.token = null;
       localStorage.removeItem('auth');
     },
@@ -85,7 +63,6 @@ const authSlice = createSlice({
       const raw = localStorage.getItem('auth');
       if (raw) {
         const parsed = JSON.parse(raw);
-        state.user = parsed.user || null;
         state.token = parsed.token || null;
       }
     },
@@ -97,11 +74,9 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state) => {
         state.loading = false;
-        if (action.payload.status === 'success' && action.payload.data?.user) {
-          state.user = action.payload.data.user;
-        }
+        state.error = null;
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
@@ -116,9 +91,6 @@ const authSlice = createSlice({
         state.loading = false;
         if (action.payload.status === 'success' && action.payload.data?.token) {
           state.token = action.payload.data.token;
-          // user tetap dari localStorage
-          const raw = localStorage.getItem('auth');
-          state.user = raw ? JSON.parse(raw).user : null;
         }
       })
       .addCase(login.rejected, (state, action) => {
