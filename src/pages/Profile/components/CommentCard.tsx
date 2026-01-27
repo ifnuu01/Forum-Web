@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function CommentCard() {
   return (
     <div className="mt-2">
@@ -12,5 +14,5 @@ export default function CommentCard() {
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, sunt id omnis dolorem aut iure consequatur? Non, minima sequi iure veniam consequuntur, ea illo consectetur eligendi ut quisquam dicta at.</p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,7 +1,9 @@
+import React from 'react';
+
 interface CategoryItemProps {
-    category: string;
-    isSelected: boolean;
-    onClick: (category: string) => void;
+  category: string;
+  isSelected: boolean;
+  onClick: (category: string) => void;
 }
 
 export default function CategoryItem({ category, isSelected, onClick }: CategoryItemProps) {
@@ -13,7 +15,7 @@ export default function CategoryItem({ category, isSelected, onClick }: Category
         : 'border-[#474B4F] text-gray-400 hover:text-white hover:border-white'
       }`}
     >
-            #{category}
+      #{category}
     </button>
-  )
+  );
 }

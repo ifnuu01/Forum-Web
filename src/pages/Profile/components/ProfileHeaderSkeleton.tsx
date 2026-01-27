@@ -1,3 +1,4 @@
+import React from 'react';
 export default function ProfileHeaderSkeleton() {
   return (
     <section className="flex items-center justify-between px-8 py-4 animate-pulse">
@@ -7,5 +8,5 @@ export default function ProfileHeaderSkeleton() {
       </div>
       <div className="w-20 h-20 bg-white/20 rounded-full"></div>
     </section>
-  )
+  );
 }

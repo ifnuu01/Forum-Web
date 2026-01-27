@@ -1,6 +1,6 @@
-import { Toaster } from 'react-hot-toast'
-import AppRouter from './navigation/Router'
-import { StrictMode } from 'react'
+import { Toaster } from 'react-hot-toast';
+import AppRouter from './navigation/Router';
+import React, { StrictMode } from 'react';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <Toaster position="top-right" />
       <AppRouter />
     </StrictMode>
-  )
+  );
 }
 
-export default App
+export default App;

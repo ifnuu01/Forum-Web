@@ -1,10 +1,11 @@
-import { ThumbsDown, ThumbsUp } from 'lucide-react'
-import { timeAgo } from '../utils/fomat'
-import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch } from '../store/store'
-import { selectUser } from '../features/user/userSlice'
-import { downVoteComment, upVoteComment } from '../features/votes/votesSlice'
-import { optimisticVoteComment } from '../features/threads/threadsSlice'
+import React from 'react';
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import { timeAgo } from '../utils/fomat';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '../store/store';
+import { selectUser } from '../features/user/userSlice';
+import { downVoteComment, upVoteComment } from '../features/votes/votesSlice';
+import { optimisticVoteComment } from '../features/threads/threadsSlice';
 
 export default function CommentCard({
   id,
@@ -27,8 +28,8 @@ export default function CommentCard({
   upVotesBy?: string[],
   downVotesBy?: string[],
 }) {
-  const dispatch = useDispatch<AppDispatch>()
-  const { ownUser } = useSelector(selectUser)
+  const dispatch = useDispatch<AppDispatch>();
+  const { ownUser } = useSelector(selectUser);
 
   const handleUpVoteComment = async () => {
     dispatch(optimisticVoteComment({
@@ -36,9 +37,9 @@ export default function CommentCard({
       commentId: id,
       userId: ownUser?.id || '',
       type: upVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'up'
-    }))
-    await dispatch(upVoteComment({ threadId, commentId: id })).unwrap()
-  }
+    }));
+    await dispatch(upVoteComment({ threadId, commentId: id })).unwrap();
+  };
 
   const handleDownVoteComment = async () => {
     dispatch(optimisticVoteComment({
@@ -46,12 +47,12 @@ export default function CommentCard({
       commentId: id,
       userId: ownUser?.id || '',
       type: downVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'down'
-    }))
-    await dispatch(downVoteComment({ threadId, commentId: id })).unwrap()
-  }
+    }));
+    await dispatch(downVoteComment({ threadId, commentId: id })).unwrap();
+  };
 
-  const isUpVoted = upVotesBy?.includes(ownUser?.id || '') || false
-  const isDownVoted = downVotesBy?.includes(ownUser?.id || '') || false
+  const isUpVoted = upVotesBy?.includes(ownUser?.id || '') || false;
+  const isDownVoted = downVotesBy?.includes(ownUser?.id || '') || false;
 
   return (
     <div className="px-8 border-b-2 border-secondary py-2">
@@ -79,5 +80,5 @@ export default function CommentCard({
         </div>
       </div>
     </div>
-  )
+  );
 }

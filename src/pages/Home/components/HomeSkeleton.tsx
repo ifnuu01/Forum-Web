@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function HomeSkeleton() {
   return (
     <section className="w-full border-b-2 border-secondary px-8 pt-3 pb-2 animate-pulse">
@@ -40,5 +42,5 @@ export default function HomeSkeleton() {
         </div>
       </div>
     </section>
-  )
+  );
 }

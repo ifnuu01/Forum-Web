@@ -1,11 +1,12 @@
-import { MessageSquare, ThumbsDown, ThumbsUp } from 'lucide-react'
-import { Link, useNavigate } from 'react-router'
-import { timeAgo } from '../../../utils/fomat'
-import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch } from '../../../store/store'
-import { downVoteThread, upVoteThread } from '../../../features/votes/votesSlice'
-import { selectUser } from '../../../features/user/userSlice'
-import { optimisticVoteThread } from '../../../features/threads/threadsSlice'
+import React from 'react';
+import { MessageSquare, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Link, useNavigate } from 'react-router';
+import { timeAgo } from '../../../utils/fomat';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '../../../store/store';
+import { downVoteThread, upVoteThread } from '../../../features/votes/votesSlice';
+import { selectUser } from '../../../features/user/userSlice';
+import { optimisticVoteThread } from '../../../features/threads/threadsSlice';
 
 export default function MyThreadCard({
   id,
@@ -29,21 +30,21 @@ export default function MyThreadCard({
   totalComments?: number
 }) {
 
-  const dispatch = useDispatch<AppDispatch>()
-  const { ownUser } = useSelector(selectUser)
-  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
+  const { ownUser } = useSelector(selectUser);
+  const navigate = useNavigate();
   const handleUpVoteThread = async () => {
-    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: upVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'up' }))
-    await dispatch(upVoteThread(id)).unwrap()
-  }
+    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: upVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'up' }));
+    await dispatch(upVoteThread(id)).unwrap();
+  };
 
   const handleDownVoteThread = async () => {
-    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: downVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'down' }))
-    await dispatch(downVoteThread(id)).unwrap()
-  }
+    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: downVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'down' }));
+    await dispatch(downVoteThread(id)).unwrap();
+  };
 
-  const isUpVoted = upVotesBy?.includes(ownUser?.id || '') || false
-  const isDownVoted = downVotesBy?.includes(ownUser?.id || '') || false
+  const isUpVoted = upVotesBy?.includes(ownUser?.id || '') || false;
+  const isDownVoted = downVotesBy?.includes(ownUser?.id || '') || false;
   return (
     <div className="px-8 mt-4 border-b-2 border-secondary pb-4">
       <section className="flex items-center gap-4">
@@ -69,5 +70,5 @@ export default function MyThreadCard({
         </div>
       </div>
     </div>
-  )
+  );
 }

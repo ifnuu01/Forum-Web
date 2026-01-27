@@ -1,41 +1,41 @@
-import { Lock, Mail, UserIcon } from 'lucide-react'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { register, selectAuth } from '../features/auth/authSlice'
-import { openLoginModal, closeRegisterModal } from '../features/auth/modalAuthSlice'
-import type { AppDispatch } from '../store/store'
-import toast from 'react-hot-toast'
-import Input from './Input'
+import { Lock, Mail, UserIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, selectAuth } from '../features/auth/authSlice';
+import { openLoginModal, closeRegisterModal } from '../features/auth/modalAuthSlice';
+import type { AppDispatch } from '../store/store';
+import toast from 'react-hot-toast';
+import Input from './Input';
 
 export default function RegisterForm() {
-  const dispatch = useDispatch<AppDispatch>()
-  const { loading, error } = useSelector(selectAuth)
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector(selectAuth);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-  })
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const result = await dispatch(register(formData)).unwrap()
+      const result = await dispatch(register(formData)).unwrap();
       if (result.status === 'success') {
-        toast.success('Register berhasil! Silakan login.')
-        dispatch(closeRegisterModal())
-        dispatch(openLoginModal())
+        toast.success('Register berhasil! Silakan login.');
+        dispatch(closeRegisterModal());
+        dispatch(openLoginModal());
       }
     } catch {
-      toast.error('Register gagal. Silakan coba lagi.')
+      toast.error('Register gagal. Silakan coba lagi.');
     }
-  }
+  };
 
   return (
     <div className="animate-in slide-in-from-bottom-4 duration-300">
@@ -99,5 +99,5 @@ export default function RegisterForm() {
         </button>
       </p>
     </div>
-  )
+  );
 }

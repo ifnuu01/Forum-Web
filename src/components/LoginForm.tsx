@@ -1,40 +1,40 @@
-import { Lock, Mail } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
-import { closeLoginModal, closeRegisterModal, openRegisterModal } from '../features/auth/modalAuthSlice'
-import { login, selectAuth } from '../features/auth/authSlice'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
-import type { AppDispatch } from '../store/store'
-import Input from './Input'
+import { Lock, Mail } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeLoginModal, closeRegisterModal, openRegisterModal } from '../features/auth/modalAuthSlice';
+import { login, selectAuth } from '../features/auth/authSlice';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import type { AppDispatch } from '../store/store';
+import Input from './Input';
 
 export default function LoginForm() {
-  const dispatch = useDispatch<AppDispatch>()
-  const { loading, error } = useSelector(selectAuth)
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector(selectAuth);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const result = await dispatch(login(formData)).unwrap()
+      const result = await dispatch(login(formData)).unwrap();
       if (result.status === 'success') {
-        toast.success('Login berhasil!')
-        dispatch(closeRegisterModal())
-        dispatch(closeLoginModal())
+        toast.success('Login berhasil!');
+        dispatch(closeRegisterModal());
+        dispatch(closeLoginModal());
       }
     } catch {
-      toast.error('Login gagal. Silakan coba lagi.')
+      toast.error('Login gagal. Silakan coba lagi.');
     }
-  }
+  };
 
   return (
     <div className="animate-in slide-in-from-bottom-4 duration-300">
@@ -86,5 +86,5 @@ export default function LoginForm() {
         </button>
       </p>
     </div>
-  )
+  );
 }

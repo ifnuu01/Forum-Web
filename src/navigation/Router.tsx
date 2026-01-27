@@ -1,8 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
-import HomePage from '../pages/Home'
-import DetailThreadPage from '../pages/DetailThread'
-import LeaderboardPage from '../pages/Leaderboard'
-import ProfilePage from '../pages/Profile'
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import HomePage from '../pages/Home';
+import DetailThreadPage from '../pages/DetailThread';
+import LeaderboardPage from '../pages/Leaderboard';
+import ProfilePage from '../pages/Profile';
 
 export default function AppRouter() {
   return (
@@ -14,5 +15,5 @@ export default function AppRouter() {
         <Route path='/profile' element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }

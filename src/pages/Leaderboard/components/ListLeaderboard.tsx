@@ -1,23 +1,23 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchLeaderboard, selectLeaderboard } from '../../../features/leaderboard/leaderboardSlice'
-import type { AppDispatch } from '../../../store/store'
-import LeaderboardSkeleton from './LeaderboardSkeleton'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLeaderboard, selectLeaderboard } from '../../../features/leaderboard/leaderboardSlice';
+import type { AppDispatch } from '../../../store/store';
+import LeaderboardSkeleton from './LeaderboardSkeleton';
 
 export default function ListLeaderboard() {
-  const dispatch = useDispatch<AppDispatch>()
-  const { leaderboard, loading, error } = useSelector(selectLeaderboard)
+  const dispatch = useDispatch<AppDispatch>();
+  const { leaderboard, loading, error } = useSelector(selectLeaderboard);
 
   useEffect(() => {
-    dispatch(fetchLeaderboard())
-  }, [dispatch])
+    dispatch(fetchLeaderboard());
+  }, [dispatch]);
 
   if (loading) {
-    return <LeaderboardSkeleton />
+    return <LeaderboardSkeleton />;
   }
 
   if (error) {
-    return <div>Error: {error}</div>
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -42,11 +42,11 @@ export default function ListLeaderboard() {
         )) : (
           <tr>
             <td colSpan={3} className="text-center py-4">
-                            No leaderboard data available.
+              No leaderboard data available.
             </td>
           </tr>
         )}
       </tbody>
     </table>
-  )
+  );
 }

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function DetailThreadSkeleton() {
   return (
     <>
@@ -48,5 +50,5 @@ export default function DetailThreadSkeleton() {
         </section>
       ))}
     </>
-  )
+  );
 }

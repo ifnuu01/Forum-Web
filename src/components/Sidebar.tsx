@@ -6,45 +6,45 @@ import {
   User,
   LogOut,
   UserRound
-} from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router'
-import type { AppDispatch } from '../store/store'
-import { openModal } from '../features/createThread/createThreadSlice'
-import { useDispatch } from 'react-redux'
-import { logout } from '../features/auth/authSlice'
+} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router';
+import type { AppDispatch } from '../store/store';
+import { openModal } from '../features/createThread/createThreadSlice';
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/auth/authSlice';
 
 export default function Sidebar() {
-  const dispatch = useDispatch<AppDispatch>()
-  const location = useLocation()
-  const [elipseMenuOpen, setElipseMenuOpen] = useState(false)
-  const mobileMenuRef = useRef<HTMLDivElement>(null)
-  const desktopMenuRef = useRef<HTMLDivElement>(null)
+  const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+  const [elipseMenuOpen, setElipseMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const desktopMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Node
-      const clickedInsideDesktop = desktopMenuRef.current?.contains(target)
-      const clickedInsideMobile = mobileMenuRef.current?.contains(target)
+      const target = event.target as Node;
+      const clickedInsideDesktop = desktopMenuRef.current?.contains(target);
+      const clickedInsideMobile = mobileMenuRef.current?.contains(target);
 
       if (!clickedInsideDesktop && !clickedInsideMobile) {
-        setElipseMenuOpen(false)
+        setElipseMenuOpen(false);
       }
     }
 
     if (elipseMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('mousedown', handleClickOutside);
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [elipseMenuOpen])
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [elipseMenuOpen]);
 
   const activeClass = (path: string) =>
-    location.pathname === path ? 'text-white md:text-primary' : 'text-primary md:text-secondary'
+    location.pathname === path ? 'text-white md:text-primary' : 'text-primary md:text-secondary';
 
   return (
     <>
       {/* DESKTOP SIDEBAR */}
-      <aside className='hidden md:flex w-20 h-[95vh] fixed left-5 top-1/2 -translate-y-1/2 flex-col justify-between items-center py-12'>
+      <aside className='hidden md:flex w-20 h-[95vh] fixed left-5 top-1/2 -translate-y-1/2 flex-col justify-between items-center py-12 z-50'>
         <div className='text-3xl font-bold text-primary'>T</div>
 
         <nav className='flex flex-col gap-8 items-center'>
@@ -125,5 +125,5 @@ export default function Sidebar() {
         </div>
       </nav>
     </>
-  )
+  );
 }

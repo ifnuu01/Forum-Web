@@ -1,23 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchOwnProfile, selectUser } from '../../../features/user/userSlice'
-import { useEffect } from 'react'
-import type { AppDispatch } from '../../../store/store'
-import ProfileHeaderSkeleton from './ProfileHeaderSkeleton'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchOwnProfile, selectUser } from '../../../features/user/userSlice';
+import React, { useEffect } from 'react';
+import type { AppDispatch } from '../../../store/store';
+import ProfileHeaderSkeleton from './ProfileHeaderSkeleton';
 
 export default function ProfileHeader() {
-  const dispatch = useDispatch<AppDispatch>()
-  const { ownUser, loading, error } = useSelector(selectUser)
+  const dispatch = useDispatch<AppDispatch>();
+  const { ownUser, loading, error } = useSelector(selectUser);
 
   useEffect(() => {
-    dispatch(fetchOwnProfile())
-  }, [dispatch])
+    dispatch(fetchOwnProfile());
+  }, [dispatch]);
 
   if (loading) {
-    return <ProfileHeaderSkeleton />
+    return <ProfileHeaderSkeleton />;
   }
 
   if (error) {
-    return <div>Error: {error}</div>
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -30,5 +30,5 @@ export default function ProfileHeader() {
         className="w-20 h-20 rounded-full object-cover"
         src={ownUser?.avatar} alt="avatar" />
     </section>
-  )
+  );
 }

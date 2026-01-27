@@ -1,28 +1,28 @@
-import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch } from '../store/store'
-import { closeModal, selectCreateThread, updateForm } from '../features/createThread/createThreadSlice'
-import { createThread } from '../features/threads/threadsSlice'
-import { Hash, SendHorizontal, MessageCircleDashed } from 'lucide-react'
-import { fetchOwnProfile, selectUser } from '../features/user/userSlice'
-import { useEffect } from 'react'
-import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '../store/store';
+import { closeModal, selectCreateThread, updateForm } from '../features/createThread/createThreadSlice';
+import { createThread } from '../features/threads/threadsSlice';
+import { Hash, SendHorizontal, MessageCircleDashed } from 'lucide-react';
+import { fetchOwnProfile, selectUser } from '../features/user/userSlice';
+import React, { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 export default function CreateThreadModal() {
-  const dispatch = useDispatch<AppDispatch>()
-  const { isOpen, form, isSubmitting, error } = useSelector(selectCreateThread)
-  const { ownUser, loading } = useSelector(selectUser)
+  const dispatch = useDispatch<AppDispatch>();
+  const { isOpen, form, isSubmitting, error } = useSelector(selectCreateThread);
+  const { ownUser, loading } = useSelector(selectUser);
 
   useEffect(() => {
-    dispatch(fetchOwnProfile())
-  }, [dispatch])
+    dispatch(fetchOwnProfile());
+  }, [dispatch]);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    dispatch(createThread(form))
-    toast.success('Thread berhasil dibuat!')
-  }
+    e.preventDefault();
+    dispatch(createThread(form));
+    toast.success('Thread berhasil dibuat!');
+  };
 
   return (
     <div className="fixed inset-0 bg-[#121212]/90 backdrop-blur-md flex items-center justify-center z-50 p-4">
@@ -32,7 +32,7 @@ export default function CreateThreadModal() {
             onClick={() => dispatch(closeModal())}
             className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
           >
-                        Batal
+            Batal
           </button>
           <h2 className="font-bold text-lg">Forum Baru</h2>
           <div className="w-10"></div>
@@ -121,5 +121,5 @@ export default function CreateThreadModal() {
         </form>
       </div>
     </div>
-  )
+  );
 }

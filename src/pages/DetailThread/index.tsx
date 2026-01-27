@@ -1,36 +1,36 @@
-import { ChevronRight } from 'lucide-react'
-import Layout from '../../components/Layout'
-import ThreadCard from '../../components/ThreadCard'
-import CommentCard from '../../components/CommentCard'
-import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch } from '../../store/store'
-import { fetchDetailThread, selectThreads } from '../../features/threads/threadsSlice'
-import { useParams } from 'react-router'
-import { useEffect } from 'react'
-import DetailThreadSkeleton from './components/DetailThreadSkeleton'
-import { fetchAllUsers } from '../../features/user/userSlice'
+import { ChevronRight } from 'lucide-react';
+import Layout from '../../components/Layout';
+import ThreadCard from '../../components/ThreadCard';
+import CommentCard from '../../components/CommentCard';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '../../store/store';
+import { fetchDetailThread, selectThreads } from '../../features/threads/threadsSlice';
+import { useParams } from 'react-router';
+import React, { useEffect } from 'react';
+import DetailThreadSkeleton from './components/DetailThreadSkeleton';
+import { fetchAllUsers } from '../../features/user/userSlice';
 
 export default function DetailThreadPage() {
-  const { id } = useParams<{ id: string }>()
+  const { id } = useParams<{ id: string }>();
 
-  const dispatch = useDispatch<AppDispatch>()
-  const { detailThread, loading, error } = useSelector(selectThreads)
+  const dispatch = useDispatch<AppDispatch>();
+  const { detailThread, loading, error } = useSelector(selectThreads);
 
   useEffect(() => {
-    dispatch(fetchDetailThread(id!))
-    dispatch(fetchAllUsers())
-  }, [dispatch, id])
+    dispatch(fetchDetailThread(id!));
+    dispatch(fetchAllUsers());
+  }, [dispatch, id]);
 
   if (loading) {
     return (
       <Layout>
         <DetailThreadSkeleton />
       </Layout>
-    )
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -71,5 +71,5 @@ export default function DetailThreadPage() {
         )
       }
     </Layout>
-  )
+  );
 }

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function LeaderboardSkeleton() {
   return (
     <table className="w-full mt-4 border-separate border-spacing-y-2 animate-pulse">
@@ -23,5 +25,5 @@ export default function LeaderboardSkeleton() {
         ))}
       </tbody>
     </table>
-  )
+  );
 }

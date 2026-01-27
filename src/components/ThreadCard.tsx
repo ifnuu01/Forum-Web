@@ -1,14 +1,14 @@
-import { ChevronRight, MessageSquare, SendHorizonal, ThumbsDown, ThumbsUp } from 'lucide-react'
-import { Link, useNavigate } from 'react-router'
-import { timeAgo } from '../utils/fomat'
-import { useEffect, useRef, useState } from 'react'
-import type { AppDispatch } from '../store/store'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchOwnProfile, selectUser } from '../features/user/userSlice'
-import { createComment, selectComments } from '../features/comments/commentsSlice'
-import { toast } from 'react-hot-toast'
-import { addCommentToDetailThread, optimisticVoteThread } from '../features/threads/threadsSlice'
-import { downVoteThread, upVoteThread } from '../features/votes/votesSlice'
+import { ChevronRight, MessageSquare, SendHorizonal, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Link, useNavigate } from 'react-router';
+import { timeAgo } from '../utils/fomat';
+import React, { useEffect, useRef, useState } from 'react';
+import type { AppDispatch } from '../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchOwnProfile, selectUser } from '../features/user/userSlice';
+import { createComment, selectComments } from '../features/comments/commentsSlice';
+import { toast } from 'react-hot-toast';
+import { addCommentToDetailThread, optimisticVoteThread } from '../features/threads/threadsSlice';
+import { downVoteThread, upVoteThread } from '../features/votes/votesSlice';
 
 export default function ThreadCard({
   isDetail = false,
@@ -39,52 +39,52 @@ export default function ThreadCard({
     avatar: string;
   },
 }) {
-  const dispatch = useDispatch<AppDispatch>()
-  const { ownUser, loading } = useSelector(selectUser)
-  const { loading: commentLoading, error: commentError } = useSelector(selectComments)
-  const [content, setContent] = useState('')
+  const dispatch = useDispatch<AppDispatch>();
+  const { ownUser, loading } = useSelector(selectUser);
+  const { loading: commentLoading, error: commentError } = useSelector(selectComments);
+  const [content, setContent] = useState('');
 
   useEffect(() => {
-    dispatch(fetchOwnProfile())
-  }, [dispatch])
+    dispatch(fetchOwnProfile());
+  }, [dispatch]);
 
-  const navigate = useNavigate()
-  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  const navigate = useNavigate();
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleTextAreaResize = () => {
     if (textAreaRef.current) {
-      textAreaRef.current.style.height = 'auto'
-      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`
+      textAreaRef.current.style.height = 'auto';
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
-  }
+  };
 
   const handleUpVoteThread = async () => {
-    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: upVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'up' }))
-    await dispatch(upVoteThread(id)).unwrap()
-  }
+    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: upVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'up' }));
+    await dispatch(upVoteThread(id)).unwrap();
+  };
 
   const handleDownVoteThread = async () => {
-    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: downVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'down' }))
-    await dispatch(downVoteThread(id)).unwrap()
-  }
+    dispatch(optimisticVoteThread({ threadId: id, userId: ownUser?.id || '', type: downVotesBy?.includes(ownUser?.id || '') ? 'neutral' : 'down' }));
+    await dispatch(downVoteThread(id)).unwrap();
+  };
 
-  const isUpVoted = upVotesBy?.includes(ownUser?.id || '') || false
-  const isDownVoted = downVotesBy?.includes(ownUser?.id || '') || false
+  const isUpVoted = upVotesBy?.includes(ownUser?.id || '') || false;
+  const isDownVoted = downVotesBy?.includes(ownUser?.id || '') || false;
 
   const handleSubmitComment = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await dispatch(createComment({ threadId: id, payload: { content } })).unwrap()
+      const response = await dispatch(createComment({ threadId: id, payload: { content } })).unwrap();
       const newComment = {
         ...response.data.comment,
         owner: ownUser!,
-      }
-      dispatch(addCommentToDetailThread({ threadId: id, comment: newComment }))
-      setContent('')
+      };
+      dispatch(addCommentToDetailThread({ threadId: id, comment: newComment }));
+      setContent('');
     } catch {
-      toast.error('Gagal mengirim komentar')
+      toast.error('Gagal mengirim komentar');
     }
-  }
+  };
 
   return (
     <section
@@ -181,5 +181,5 @@ export default function ThreadCard({
       )}
 
     </section>
-  )
+  );
 }

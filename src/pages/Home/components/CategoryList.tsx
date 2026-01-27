@@ -1,4 +1,5 @@
-import CategoryItem from './CategoryItem'
+import React from 'react';
+import CategoryItem from './CategoryItem';
 
 interface CategoryListProps {
   categories: string[];
@@ -38,5 +39,5 @@ export default function CategoryList({ categories, selectedCategory, onCategoryC
         ))}
       </div>
     </div>
-  )
+  );
 }
