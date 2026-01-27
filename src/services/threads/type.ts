@@ -5,7 +5,7 @@ export interface ThreadRequest{
 }
 
 export interface ThreadResponse{
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data?: {
         thread?: {
@@ -23,7 +23,7 @@ export interface ThreadResponse{
 }
 
 export interface GetAllThreadsResponse{
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data: {
         threads: Array<{
@@ -41,7 +41,7 @@ export interface GetAllThreadsResponse{
 }
 
 export interface DetailThreadResponse{
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data: {
         detailThread: {

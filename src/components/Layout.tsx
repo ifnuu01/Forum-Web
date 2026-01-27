@@ -1,58 +1,58 @@
-import { Plus } from "lucide-react";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch } from "../store/store";
-import { openModal } from "../features/createThread/createThreadSlice";
-import CreateThreadModal from "./CreateThreadModal";
-import AuthModal from "./AuthModal";
-import { loadAuthFromStorage, selectAuth } from "../features/auth/authSlice";
-import { useEffect } from "react";
-import { closeLoginModal, openLoginModal } from "../features/auth/modalAuthSlice";
+import { Plus } from 'lucide-react'
+import Navbar from './Navbar'
+import Sidebar from './Sidebar'
+import { useDispatch, useSelector } from 'react-redux'
+import type { AppDispatch } from '../store/store'
+import { openModal } from '../features/createThread/createThreadSlice'
+import CreateThreadModal from './CreateThreadModal'
+import AuthModal from './AuthModal'
+import { loadAuthFromStorage, selectAuth } from '../features/auth/authSlice'
+import { useEffect } from 'react'
+import { closeLoginModal, openLoginModal } from '../features/auth/modalAuthSlice'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const dispatch = useDispatch<AppDispatch>();
-    const { token } = useSelector(selectAuth);
+  const dispatch = useDispatch<AppDispatch>()
+  const { token } = useSelector(selectAuth)
 
-    useEffect(() => {
-        dispatch(loadAuthFromStorage());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(loadAuthFromStorage())
+  }, [dispatch])
 
-    useEffect(() => {
-        const isLoggedIn = token;
-        if (!isLoggedIn) {
-            dispatch(openLoginModal());
-        } else {
-            dispatch(closeLoginModal());
-        }
-    }, [token, dispatch]);
+  useEffect(() => {
+    const isLoggedIn = token
+    if (!isLoggedIn) {
+      dispatch(openLoginModal())
+    } else {
+      dispatch(closeLoginModal())
+    }
+  }, [token, dispatch])
 
-    return (
-        <div className="min-h-screen bg-primary relative flex md:bg-white">
-            <Sidebar />
-            <Navbar />
-            <main className='pt-16 pb-20 md:pb-0 w-full flex justify-center'>
-                <section
-                    className="bg-primary w-full max-w-150 md:rounded-t-[40px] py-4 h-[calc(100vh-64px)] relative overflow-y-auto no-scrollbar border-2 border-secondary"
-                    style={{
-                        scrollbarWidth: 'none',
-                        msOverflowStyle: 'none',
-                    }}
-                >
-                    <div className="text-white">
-                        {children}
-                    </div>
-                </section>
-            </main>
-            <button
-                onClick={() => dispatch(openModal())}
-                aria-label="Create Thread"
-                className='fixed hidden md:flex bottom-10 right-10 bg-primary p-5 rounded-2xl text-secondary shadow-2xl hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer z-40'
-            >
-                <Plus size={32} strokeWidth={3} />
-            </button>
-            <CreateThreadModal />
-            <AuthModal />
-        </div>
-    );
+  return (
+    <div className="min-h-screen bg-primary relative flex md:bg-white">
+      <Sidebar />
+      <Navbar />
+      <main className='pt-16 pb-20 md:pb-0 w-full flex justify-center'>
+        <section
+          className="bg-primary w-full max-w-150 md:rounded-t-[40px] py-4 h-[calc(100vh-64px)] relative overflow-y-auto no-scrollbar border-2 border-secondary"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          <div className="text-white">
+            {children}
+          </div>
+        </section>
+      </main>
+      <button
+        onClick={() => dispatch(openModal())}
+        aria-label="Create Thread"
+        className='fixed hidden md:flex bottom-10 right-10 bg-primary p-5 rounded-2xl text-secondary shadow-2xl hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer z-40'
+      >
+        <Plus size={32} strokeWidth={3} />
+      </button>
+      <CreateThreadModal />
+      <AuthModal />
+    </div>
+  )
 }

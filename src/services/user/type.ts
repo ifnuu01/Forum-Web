@@ -1,5 +1,5 @@
 export interface GetAllUsersResponse {
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data: {
         users: Array<{
@@ -12,7 +12,7 @@ export interface GetAllUsersResponse {
 }
 
 export interface OwnProfileResponse {
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data: {
         user: {

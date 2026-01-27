@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as commentService from '../../services/comments/request';
-import type { CommentRequest, CommentResponse } from '../../services/comments/type';
-import type { RootState } from '../../store/store';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import * as commentService from '../../services/comments/request'
+import type { CommentRequest, CommentResponse } from '../../services/comments/type'
+import type { RootState } from '../../store/store'
 
 interface CommentsState {
   loading: boolean;
@@ -11,7 +11,7 @@ interface CommentsState {
 const initialState: CommentsState = {
   loading: false,
   error: null,
-};
+}
 
 // Async thunk: create comment
 export const createComment = createAsyncThunk<
@@ -20,16 +20,16 @@ export const createComment = createAsyncThunk<
   { rejectValue: string }
 >('comments/createComment', async ({ threadId, payload }, { rejectWithValue }) => {
   try {
-    const response = await commentService.createComment(threadId, payload);
+    const response = await commentService.createComment(threadId, payload)
     if (response.status === 'success') {
-      return response;
+      return response
     }
-    return rejectWithValue(response.message);
+    return rejectWithValue(response.message)
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Failed to create comment';
-    return rejectWithValue(message);
+    const message = err instanceof Error ? err.message : 'Failed to create comment'
+    return rejectWithValue(message)
   }
-});
+})
 
 const commentsSlice = createSlice({
   name: 'comments',
@@ -38,20 +38,20 @@ const commentsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createComment.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading = true
+        state.error = null
       })
       .addCase(createComment.fulfilled, (state) => {
-        state.loading = false;
+        state.loading = false
       })
       .addCase(createComment.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || 'Failed to create comment';
-      });
+        state.loading = false
+        state.error = action.payload || 'Failed to create comment'
+      })
   },
-});
+})
 
-export default commentsSlice.reducer;
+export default commentsSlice.reducer
 
 // Selector
-export const selectComments = (state: RootState) => state.comments;
+export const selectComments = (state: RootState) => state.comments

@@ -3,7 +3,7 @@ export interface CommentRequest {
 }
 
 export interface CommentResponse {
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data: {
         comment: {

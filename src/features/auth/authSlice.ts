@@ -1,19 +1,19 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { RootState } from '../../store/store';
-import * as authService from '../../services/auth/request';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import type { RootState } from '../../store/store'
+import * as authService from '../../services/auth/request'
 import type {
   RegisterRequest,
   RegisterResponse,
   LoginRequest,
   LoginResponse,
   AuthState,
-} from '../../services/auth/type';
+} from '../../services/auth/type'
 
 const initialState: AuthState = {
   token: null,
   loading: false,
   error: null,
-};
+}
 
 // Register thunk
 export const register = createAsyncThunk<
@@ -22,13 +22,13 @@ export const register = createAsyncThunk<
   { rejectValue: string }
 >('auth/register', async (payload, { rejectWithValue }) => {
   try {
-    const response = await authService.register(payload);
-    return response;
+    const response = await authService.register(payload)
+    return response
   } catch (err: unknown) {
-    const  message = err instanceof Error ? err.message : 'Register failed';
-    return rejectWithValue(message);
+    const  message = err instanceof Error ? err.message : 'Register failed'
+    return rejectWithValue(message)
   }
-});
+})
 
 // Login thunk
 export const login = createAsyncThunk<
@@ -37,33 +37,33 @@ export const login = createAsyncThunk<
   { rejectValue: string }
 >('auth/login', async (payload, { rejectWithValue }) => {
   try {
-    const response = await authService.login(payload);
+    const response = await authService.login(payload)
     if (response.status === 'success' && response.data?.token) {
       localStorage.setItem(
         'auth',
-        JSON.stringify({token: response.data.token })
-      );
+        JSON.stringify({ token: response.data.token })
+      )
     }
-    return response;
+    return response
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Login failed';
-    return rejectWithValue(message);
+    const message = err instanceof Error ? err.message : 'Login failed'
+    return rejectWithValue(message)
   }
-});
+})
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logout(state) {
-      state.token = null;
-      localStorage.removeItem('auth');
+      state.token = null
+      localStorage.removeItem('auth')
     },
     loadAuthFromStorage(state) {
-      const raw = localStorage.getItem('auth');
+      const raw = localStorage.getItem('auth')
       if (raw) {
-        const parsed = JSON.parse(raw);
-        state.token = parsed.token || null;
+        const parsed = JSON.parse(raw)
+        state.token = parsed.token || null
       }
     },
   },
@@ -71,37 +71,37 @@ const authSlice = createSlice({
     builder
       // Register
       .addCase(register.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading = true
+        state.error = null
       })
       .addCase(register.fulfilled, (state) => {
-        state.loading = false;
-        state.error = null;
+        state.loading = false
+        state.error = null
       })
       .addCase(register.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || 'Register failed';
+        state.loading = false
+        state.error = action.payload || 'Register failed'
       })
       // Login
       .addCase(login.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading = true
+        state.error = null
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loading = false
         if (action.payload.status === 'success' && action.payload.data?.token) {
-          state.token = action.payload.data.token;
+          state.token = action.payload.data.token
         }
       })
       .addCase(login.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || 'Login failed';
-      });
+        state.loading = false
+        state.error = action.payload || 'Login failed'
+      })
   },
-});
+})
 
-export const { logout, loadAuthFromStorage } = authSlice.actions;
-export default authSlice.reducer;
+export const { logout, loadAuthFromStorage } = authSlice.actions
+export default authSlice.reducer
 
 // Selector
-export const selectAuth = (state: RootState) => state.auth;
+export const selectAuth = (state: RootState) => state.auth

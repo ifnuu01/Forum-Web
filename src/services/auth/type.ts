@@ -12,7 +12,7 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data?: {
         user?: User;
@@ -25,7 +25,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data?: {
         token?: string;

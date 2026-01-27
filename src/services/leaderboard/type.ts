@@ -1,5 +1,5 @@
 export interface LeaderboardResponse {
-    status: "success" | "fail";
+    status: 'success' | 'fail';
     message: string;
     data: {
         leaderboards: Array<{
