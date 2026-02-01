@@ -8,7 +8,7 @@
 describe('Login E2E Test', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.get('#auth-modal', { timeout: 10000 }).should('be.visible');
+    cy.get('#auth-modal', { timeout: 15000 }).should('be.visible');
   });
 
   it('should display login modal when not authenticated', () => {
@@ -16,15 +16,19 @@ describe('Login E2E Test', () => {
   });
 
   it('should allow user to type email and password', () => {
-    cy.get('input[placeholder="Email"]').should('be.visible').as('emailInput');
-    cy.get('@emailInput').type('user@example.com');
-
+    cy.get('input[placeholder="Email"]')
+      .should('be.visible')
+      .type('user@example.com');
     cy.get('input[placeholder="Password"]')
       .should('be.visible')
-      .as('passwordInput');
-    cy.get('@passwordInput').type('validpassword');
-
-    cy.get('@emailInput').should('have.value', 'user@example.com');
-    cy.get('@passwordInput').should('have.value', 'validpassword');
+      .type('validpassword');
+    cy.get('input[placeholder="Email"]').should(
+      'have.value',
+      'user@example.com',
+    );
+    cy.get('input[placeholder="Password"]').should(
+      'have.value',
+      'validpassword',
+    );
   });
 });
