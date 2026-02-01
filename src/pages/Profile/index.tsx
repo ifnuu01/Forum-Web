@@ -6,6 +6,7 @@ import { fetchOwnProfile, selectUser } from '../../features/user/userSlice';
 import React, { useEffect } from 'react';
 import type { AppDispatch } from '../../store/store';
 import { selectThreads } from '../../features/threads/threadsSlice';
+import { Helmet } from 'react-helmet';
 
 export default function ProfilePage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +21,10 @@ export default function ProfilePage() {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Forum Web - Profile</title>
+        <meta name="description" content="Lihat profil dan thread yang Anda buat di forum kami." />
+      </Helmet>
       {/* header */}
       <ProfileHeader />
 

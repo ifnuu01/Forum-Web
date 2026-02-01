@@ -9,6 +9,7 @@ import { useParams } from 'react-router';
 import React, { useEffect } from 'react';
 import DetailThreadSkeleton from './components/DetailThreadSkeleton';
 import { fetchAllUsers } from '../../features/user/userSlice';
+import { Helmet } from 'react-helmet';
 
 export default function DetailThreadPage() {
   const { id } = useParams<{ id: string }>();
@@ -35,6 +36,10 @@ export default function DetailThreadPage() {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Forum Web - Detail Thread</title>
+        <meta name="description" content="Lihat detail thread dan komentarnya di forum kami." />
+      </Helmet>
       {
         detailThread && (
           <>
