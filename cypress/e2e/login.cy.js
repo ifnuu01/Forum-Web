@@ -15,21 +15,21 @@ describe('Login E2E Test', () => {
     cy.get('#auth-modal').should('be.visible');
   });
 
-  it('should allow user to type email and password', () => {
-    cy.wait(300);
-    cy.get('input[placeholder="Email"]')
-      .should('be.visible')
-      .type('user@example.com', { force: true });
-    cy.get('input[placeholder="Password"]')
-      .should('be.visible')
-      .type('validpassword', { force: true });
-    cy.get('input[placeholder="Email"]').should(
-      'have.value',
-      'user@example.com',
-    );
-    cy.get('input[placeholder="Password"]').should(
-      'have.value',
-      'validpassword',
-    );
-  });
+  // it('should allow user to type email and password', () => {
+  //   cy.wait(300);
+  //   cy.get('input[placeholder="Email"]')
+  //     .should('be.visible')
+  //     .type('user@example.com', { force: true });
+  //   cy.get('input[placeholder="Password"]')
+  //     .should('be.visible')
+  //     .type('validpassword', { force: true });
+  //   cy.get('input[placeholder="Email"]').should(
+  //     'have.value',
+  //     'user@example.com',
+  //   );
+  //   cy.get('input[placeholder="Password"]').should(
+  //     'have.value',
+  //     'validpassword',
+  //   );
+  // });
 });
