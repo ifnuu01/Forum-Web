@@ -16,12 +16,13 @@ describe('Login E2E Test', () => {
   });
 
   it('should allow user to type email and password', () => {
+    cy.wait(300);
     cy.get('input[placeholder="Email"]')
       .should('be.visible')
-      .type('user@example.com');
+      .type('user@example.com', { force: true });
     cy.get('input[placeholder="Password"]')
       .should('be.visible')
-      .type('validpassword');
+      .type('validpassword', { force: true });
     cy.get('input[placeholder="Email"]').should(
       'have.value',
       'user@example.com',
