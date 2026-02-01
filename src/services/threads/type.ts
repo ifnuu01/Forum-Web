@@ -72,3 +72,10 @@ export interface DetailThreadResponse{
         }
     }
 }
+
+export interface ThreadsState {
+  threads: GetAllThreadsResponse['data']['threads'];
+  detailThread: DetailThreadResponse['data']['detailThread'] | null;
+  loading: boolean;
+  error: string | null;
+}

@@ -41,7 +41,7 @@ export default function LoginForm() {
       <h2 className="text-3xl font-bold mb-2 font-['Quicksand']">Halo Lagi!</h2>
       <p className="text-gray-400 mb-8 text-sm">Masuk untuk mulai berdiskusi.</p>
 
-      <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="relative">
           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
           <Input
@@ -69,7 +69,7 @@ export default function LoginForm() {
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <button
-          onClick={handleSubmit}
+          type="submit"
           disabled={loading}
           className="w-full bg-white text-primary font-bold py-4 rounded-2xl mt-4 hover:opacity-90 active:scale-95 transition-all">
           {loading ? 'Memproses...' : 'Masuk'}

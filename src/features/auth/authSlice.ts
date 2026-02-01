@@ -23,6 +23,9 @@ export const register = createAsyncThunk<
 >('auth/register', async (payload, { rejectWithValue }) => {
   try {
     const response = await authService.register(payload);
+    if (response.status === 'fail') {
+      return rejectWithValue(response.message);
+    }
     return response;
   } catch (err: unknown) {
     const  message = err instanceof Error ? err.message : 'Register failed';
@@ -38,6 +41,9 @@ export const login = createAsyncThunk<
 >('auth/login', async (payload, { rejectWithValue }) => {
   try {
     const response = await authService.login(payload);
+    if (response.status === 'fail') {
+      return rejectWithValue(response.message);
+    }
     if (response.status === 'success' && response.data?.token) {
       localStorage.setItem(
         'auth',

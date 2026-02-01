@@ -5,15 +5,9 @@ import type {
   ThreadResponse,
   GetAllThreadsResponse,
   DetailThreadResponse,
+  ThreadsState,
 } from '../../services/threads/type';
 import type { RootState } from '../../store/store';
-
-interface ThreadsState {
-  threads: GetAllThreadsResponse['data']['threads'];
-  detailThread: DetailThreadResponse['data']['detailThread'] | null;
-  loading: boolean;
-  error: string | null;
-}
 
 const initialState: ThreadsState = {
   threads: [],
