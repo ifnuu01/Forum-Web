@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { fetchAllUsers, selectUser } from '../../features/user/userSlice';
 import HomeSkeleton from './components/HomeSkeleton';
 import CategoryList from './components/CategoryList';
+import { Helmet } from 'react-helmet';
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
@@ -41,6 +42,10 @@ export default function Home() {
   return (
     <Layout>
       <>
+        <Helmet>
+          <title>Forum Web - Home</title>
+          <meta name="description" content="Forum diskusi komunitas terbaik di Indonesia." />
+        </Helmet>
         <CategoryList
           categories={categories}
           selectedCategory={selectedCategory}
