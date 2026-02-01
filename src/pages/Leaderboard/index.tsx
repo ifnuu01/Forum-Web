@@ -8,7 +8,7 @@ export default function LeaderboardPage() {
     <Layout>
       <Helmet>
         <title>Forum Web - Leaderboard</title>
-        <meta name="description" content="Lihat daftar pengguna terbaik di forum kami." />
+        <meta name="description" content="Lihat daftar pengguna terbaik dan teraktif di forum kami." />
       </Helmet>
       <ListLeaderboard />
     </Layout>
